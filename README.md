@@ -2,9 +2,9 @@
 
 With:
 - Node.js Express backend;
-- Gulp and SCSS preprocessng;
+- Gulp and SCSS preprocessing;
 
-On index page there are drop-down component with searching.
+On index page there is drop-down component with searching.
 
 Commands:
 - Prepare: `npm install`;
