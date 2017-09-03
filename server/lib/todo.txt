@@ -1,0 +1,20 @@
+
+GET /users – Return all Users from MongoDB
+POST /users – Add new user in MongoDB
+GET /users/:id – Return User with matched ID
+PUT /users/:id – Update users information
+DELETE /users/:id – Delete particular user
+
+GET /api/auth/ return current user
+POST /api/auth/ autorize user with send credentials
+===========================================================================
+Hash:
+	db.userPassword =  require('crypto').createHash('sha1').update(req.body.password).digest('base64');
+
+	path = require('path');
+	path.join(__dirname+'/index.html')
+===========================================================================
+Get environment variable
+	process.env.NODE_ENV
+===========================================================================
+// TODO use http://scottksmith.com/blog/2014/09/04/simple-steps-to-secure-your-express-node-application/

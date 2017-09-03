@@ -1,0 +1,40 @@
+html {
+  font: 12px/16px Arial; }
+
+body {
+  margin: 0; }
+
+.city-search {
+  margin: 50px 100px; }
+  .city-search_title {
+    text-transform: uppercase;
+    font-size: 18px;
+    line-height: 20px; }
+
+.search-select {
+  display: inline-block;
+  position: relative;
+  border: 1px solid #ccc; }
+  .search-select_input {
+    border: none;
+    font-size: 13px;
+    line-height: 20px;
+    padding: 4px 12px; }
+  .search-select_results {
+    position: absolute;
+    left: -1px;
+    top: 28px;
+    width: 100%;
+    border: 1px solid #ccc;
+    background: #fff; }
+
+.search-select_variant {
+  display: block;
+  cursor: pointer;
+  padding: 3px 4px; }
+  .search-select_variant:hover {
+    background-color: #333;
+    color: #fff; }
+  .search-select_variant > .search-select_variant-inner {
+    text-overflow: ellipsis;
+    overflow: hidden; }

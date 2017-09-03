@@ -1,0 +1,42 @@
+.city-search{
+	margin: 50px 100px;
+	&_title{
+		text-transform: uppercase;
+		@include text(18, 20);
+	}
+}
+
+.search-select{
+	$topOffset: 4;
+	$lineHeight: 20;
+	display: inline-block;
+	position: relative;
+	border: 1px solid #ccc;
+	&_input{
+		border: none;
+		@include text(13, $lineHeight);
+		padding: $topOffset * 1px 12px;
+	}
+	&_results{
+		position: absolute;
+		left: -1px;
+		top: 2 * $topOffset + $lineHeight * 1px;
+		width: 100%;
+		border: 1px solid #ccc;
+		background: #fff;
+	}
+}
+
+.search-select_variant{
+	display: block;
+	cursor: pointer;
+	padding: 3px 4px;
+	&:hover{
+		background-color: #333;
+		color: #fff;
+	}
+	& > &-inner{
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+}

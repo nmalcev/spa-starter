@@ -1,0 +1,19 @@
+{
+  "name": "ng16controls",
+  "version": "1.0.0",
+  "description": "application bootstrap",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "watch": "node_modules/.bin/gulp default",
+    "bckp": "zip -r bckp.zip * -x \"*node_modules/*\" -x \"*.git*\" -x \"*/.DS_Store\" -x \"npm-debug.log\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "crc": "^3.4.4",
+    "express": "^4.15.4",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0"
+  }
+}

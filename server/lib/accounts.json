@@ -1,0 +1,12 @@
+{
+	"1": {
+		"gid": 1,
+		"name": "nick",
+		"hash": "6512bd43d9caa6e02c990b0a82652dca"
+	},
+	"nick": {
+		"gid": "1",
+		"name": "nick-user",
+		"hash": "d0dff15c4dc9c4b106889d6f30dce6ce"
+	}
+}

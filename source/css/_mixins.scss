@@ -1,0 +1,9 @@
+@mixin text($fontSize, $lineHeight, $color:false) {
+    font-size: $fontSize * 1px;
+    line-height: $lineHeight * 1px;
+    
+    @if($color){
+    	color: $color;
+    }
+}
+
