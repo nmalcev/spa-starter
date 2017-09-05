@@ -8,10 +8,17 @@
 	</head>
 	<body ng-app="app">
 		<section ng-controller="city-search" class="city-search">
-			<h2 class="city-search_title">Select city</h2>
-			<city-search-select name="name2" selectedvalue="selectedcity" class="search-select"></city-search-select>
-			<p ng-if="!!selectedcity">Your have selected: <span ng-bind="selectedcity"></span></p>
+			<section class="block-a">
+				<h2 class="city-search_title">Select city</h2>
+				<city-search-select name="name2" selectedvalue="selectedcity" class="search-select"></city-search-select>
+				<p ng-if="!!selectedcity">Your have selected: <span ng-bind="selectedcity"></span></p>
+			</section>
+			<section class="block-a">
+				<button ng-click="onClick()">Open popup</button>
+			</section>
 		</section>
+
+		<popup-root></popup-root>
 		<script src="/lib/angular.min.js"></script>
 		<script src="/index.js"></script>
 	</body>
