@@ -14,7 +14,24 @@
 				<p ng-if="!!selectedcity">Your have selected: <span ng-bind="selectedcity"></span></p>
 			</section>
 			<section class="block-a">
+				<form class="form" ng-submit="onSubmit()" ng-controller="auth">
+					<div class="block-c">
+						<p class="block-d">Name:</p>
+						<input type="text" name="name" ng-model="login" required/>
+					</div>
+					<div class="block-c">
+						<p class="block-d">Password:</p>
+						<input type="password" name="password" ng-model="password" required/>
+					</div>
+					<div class="block-c">
+						<button type="submit">Submit</button>
+						<button type="reset">Reset</button>
+					</div>
+				</form>
+			</section>
+			<section class="block-a">
 				<button ng-click="onClick()">Open popup</button>
+				<div class="test"></div>
 			</section>
 		</section>
 

@@ -82,6 +82,22 @@
 	});
 
 //--------------------------------------------------------------------------------
+	
+	app.controller('auth', ['$scope', class{
+		constructor($scope){
+ 			$scope.login = '';
+			$scope.password = '';
+			$scope.onSubmit = function(){
+				console.log('[TRIG submit]');
+				console.dir(arguments);
+				console.dir($scope);
+
+			}.bind(this);
+		}
+
+	}]);
+
+//--------------------------------------------------------------------------------
 
 	// Implements popup engine
 
@@ -106,23 +122,39 @@
 			onClose: '&',
 		},
 		controller: class{
-			constructor($scope, $element, $attrs){
+			constructor($scope, $element, $attrs, $document){
 				console.log('INIT popup-wrap');
 				console.dir(arguments);
 				this.scope = $scope;
+				this.doc = $document[0];
+
+				if(this.doc.body.overflow != 'hidden'){
+					this.doc.documentElement.style.overflow = 'hidden';
+					this.doc.body.overflow = 'hidden';	
+					this._bodyhooked = true;
+				}
+
+				$element[0].focus();
 			}
 			close(){
 				this.onClose();
 			}
+			$onDestroy(){
+				if(this._bodyhooked){
+					this.doc.documentElement.style.overflow = '';
+					this.doc.body.overflow = '';
+				}
+			}
+
 		},
 		template: `
-			<div class="ui-ppp_content">
+			<div class="ui-ppp_content" >
 				<div style="border: 1px solid red;">{{$ctrl.settings.title}}</div>
 				<div ng-click="$ctrl.close()">[x]</div>
 			</div>
 		`,
 	});
-	// Host conatiner for popups
+	// Host container for popups
 	app.component('popupRoot', {
 		controller: ['$scope', '$element', '$attrs', 'popup', class{
 			constructor($scope, $element, $attrs, $popup){
@@ -140,8 +172,15 @@
 					this.stack.splice(pos, 1);
 				}
 			}
+			onKeyDown(e, data){
+				console.log('On keydown');
+				console.dir(e);
+				if(e.keyCode == 27){
+					this.remove(data);
+				}
+			}
 		}],
-		template: '<popup-wrap class="ui-ppp" ng-repeat="data in $ctrl.stack" settings="data" on-close="$ctrl.remove(data)"></popup-wrap>',
+		template: '<popup-wrap class="ui-ppp" ng-repeat="data in $ctrl.stack" settings="data" on-close="$ctrl.remove(data)" tabindex="0" ng-keydown="$ctrl.onKeyDown($event, data)"></popup-wrap>',
 	});
 
 //--------------------------------------------------------------------------------

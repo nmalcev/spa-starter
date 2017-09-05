@@ -7,6 +7,20 @@ body {
 .block-a {
   margin: 0 0 20px 0; }
 
+.block-b {
+  margin: 0 0 16px 0; }
+
+.block-c {
+  margin: 0 0 12px 0; }
+
+.block-d {
+  margin: 0 0 8px 0; }
+
+.test {
+  width: 10px;
+  height: 10000px;
+  background: yellow; }
+
 .ui-ppp {
   position: fixed;
   text-align: center;
@@ -64,3 +78,7 @@ body {
   .search-select_variant > .search-select_variant-inner {
     text-overflow: ellipsis;
     overflow: hidden; }
+
+.form {
+  border: 1px solid #ccc;
+  padding: 10px 20px; }
