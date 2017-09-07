@@ -1,18 +1,37 @@
-(function(app){
+(function(app, angular){
 	'use strict';
+	app.config(function($controllerProvider){
+	    app.cp = $controllerProvider;
+	});
 
 	app.controller('city-search', ['$scope', 'popup', class{
 		constructor($scope, $popup){
 			$scope.selectedcity = '';
 
 			$scope.onClick = function(){
-				console.log('Click2');
 				$popup.add({
-					title: 'Popup ' + Math.random()
+					title: 'Example of Popup',
+					body: 
+					'<div ng-controller="lazy">'
+					+ '<p>Hello <b>{{entry}}</b>!</p>'
+					+ '<div class="test" ng-show="showBar"></div>'
+					+ '<button ng-click="toggle()">Toggle</button>'
+					+ '</div>',
+					provide: function($cp){
+						$cp.register('lazy', function($scope){
+						    $scope.entry = 'World';
+						    $scope.showBar = false;
+						    $scope.toggle = function(){
+						    	this.showBar = !this.showBar;
+						    };
+						});
+					}
 				});
+
 			}
 		}
 	}]);
+
 
 	function debounce(_cb, _msec){
 		var _pending;
@@ -33,7 +52,7 @@
 		}, 
 		template: `
 			<input class="search-select_input" type="text" ng-input="$ctrl.onInput($event)" ng-model="$ctrl.input" ng-change="$ctrl.onInput()"/>
-			<div class="search-select_results">
+			<div class="search-select_results" ng-show="$ctrl.results.length > 0">
 				<city-search-variant class="search-select_variant" ng-repeat="result in $ctrl.results" data="result" on-select="$ctrl.select(result)"></city-search-variant>
 			</div>
 			`,
@@ -118,23 +137,18 @@
 	})
 	app.component('popupWrap', {
 		bindings:{
-			settings: '<',
+			settings: '=',
 			onClose: '&',
 		},
 		controller: class{
-			constructor($scope, $element, $attrs, $document){
-				console.log('INIT popup-wrap');
-				console.dir(arguments);
+			constructor($scope, $element, $attrs, $document, $compile){
 				this.scope = $scope;
 				this.doc = $document[0];
-
-				if(this.doc.body.overflow != 'hidden'){
-					this.doc.documentElement.style.overflow = 'hidden';
-					this.doc.body.overflow = 'hidden';	
-					this._bodyhooked = true;
-				}
-
 				$element[0].focus();
+				this.compile = $compile;
+				this.code = '';
+				this.el = $element;
+
 			}
 			close(){
 				this.onClose();
@@ -145,13 +159,32 @@
 					this.doc.body.overflow = '';
 				}
 			}
+			$onInit(){
+				if(this.doc.body.overflow != 'hidden'){
+					this.doc.documentElement.style.overflow = 'hidden';
+					this.doc.body.overflow = 'hidden';	
+					this._bodyhooked = true;
+				}
 
+				if(this.settings.provide){
+					this.settings.provide(app.cp);
+				}
+
+				this.code = this.settings.body;
+			}
+			onClick(e){
+				e.stopPropagation();
+			}
 		},
 		template: `
-			<div class="ui-ppp_content" >
-				<div style="border: 1px solid red;">{{$ctrl.settings.title}}</div>
+		<div class="ui-ppp_wrap">
+			<div class="ui-ppp_content" ng-click="$ctrl.onClick($event)">
+				<h3 class="ui-ppp_header">{{$ctrl.settings.title}}</h3>
+				<render-html html="$ctrl.code"></render-html>
+				<div class="wrap"></div>
 				<div ng-click="$ctrl.close()">[x]</div>
 			</div>
+		</div>
 		`,
 	});
 	// Host container for popups
@@ -173,16 +206,38 @@
 				}
 			}
 			onKeyDown(e, data){
-				console.log('On keydown');
-				console.dir(e);
 				if(e.keyCode == 27){
 					this.remove(data);
 				}
 			}
 		}],
-		template: '<popup-wrap class="ui-ppp" ng-repeat="data in $ctrl.stack" settings="data" on-close="$ctrl.remove(data)" tabindex="0" ng-keydown="$ctrl.onKeyDown($event, data)"></popup-wrap>',
+		template: '<popup-wrap class="ui-ppp" ng-repeat="data in $ctrl.stack" settings="data" on-close="$ctrl.remove(data)" ng-click="$ctrl.remove(data)" tabindex="0" ng-keydown="$ctrl.onKeyDown($event, data)"></popup-wrap>',
 	});
+
+angular.module('app')
+	.directive('renderHtml', ['$compile', function($compile){
+		return {
+			restrict: 'E',
+			scope: {
+				html: '='
+			},
+			link: function postLink(scope, element, attrs){
+				function appendHtml(){
+					if(scope.html) {
+						var newElement = angular.element(scope.html);
+						$compile(newElement)(scope);
+						// element.append(newElement);
+						element.replaceWith(newElement);
+					}
+				}
+
+				scope.$watch(function(){ 
+					return scope.html 
+				}, appendHtml);
+			}
+		};
+	}]);
 
 //--------------------------------------------------------------------------------
 
-}(angular.module('app', [])));
+}(angular.module('app', []), angular));
