@@ -7,11 +7,16 @@
 		<link rel="stylesheet" type="text/css" href="/css/main.css"/>
 	</head>
 	<body ng-app="app">
-		<section ng-controller="city-search" class="city-search">
-			<section class="block-a">
-				<h2 class="city-search_title">Select city</h2>
-				<city-search-select name="name2" selectedvalue="selectedcity" class="search-select"></city-search-select>
-				<p ng-if="!!selectedcity">Your have selected: <span ng-bind="selectedcity"></span></p>
+		<section class="page">
+			<section class="block-a" ng-controller="city-search">
+				<section class="block-a">
+					<h2 class="page_title">Select city</h2>
+					<city-search-select name="name2" selectedvalue="selectedcity" class="search-select"></city-search-select>
+					<p ng-if="!!selectedcity">Your have selected: <span ng-bind="selectedcity"></span></p>
+				</section>
+				<section class="block-a">
+					<button ng-click="onClick()">Open popup</button>
+				</section>
 			</section>
 			<section class="block-a">
 				<form class="form" ng-submit="onSubmit()" ng-controller="auth">
@@ -29,14 +34,15 @@
 					</div>
 				</form>
 			</section>
-			<section class="block-a">
-				<button ng-click="onClick()">Open popup</button>
-				<div class="test"></div>
+			<section class="block-a" ng-controller="test-ctrl">
+				<button ng-click="testProxy()">Test 1</button>
 			</section>
+			<div class="test"></div>
 		</section>
+		
 
 		<popup-root></popup-root>
 		<script src="/lib/angular.min.js"></script>
-		<script src="/index.js"></script>
+		<script src="/js/main.js" type="module"></script>
 	</body>
 </html>

@@ -3,7 +3,9 @@ var 	$express = require('express'),
 		$session = require('./server/lib/session_provider'),
 		$accounts = require('./server/lib/accounts_provider');
 
+
 var 	app = $express();
+
 
 // Define index page
 app.get('/', function (req, res) {
@@ -11,16 +13,37 @@ app.get('/', function (req, res) {
 });
 // Bind static root
 app.use($express.static(__dirname + '/static'));
+
+
 // Use middleware
 app.use($rContent.contentParser);
 app.use($session.sessionProvider('abc'));
 
+
+// TODO move requirements at routes folder
 app.use('/api/auth', require('./server/api/auth'));
 app.use('/api/user', require('./server/api/user'));
+$accounts.restore();
+
 // Fake data
+// TODO move requirements at routes folder
 app.use('/api/cities', require('./server/api/test_list'));
 
-$accounts.restore();
+
+
+// TODO move to separete module
+var		$tokens_middleware = require('./server/lib/tokens_middleware'),
+		$services_routes = require('./server/routes/services'),
+		$tokens = require('./server/lib/token_provider');
+
+app.use('/entry', $tokens_middleware, $services_routes); // nested middlewares http://expressjs.com/en/guide/using-middleware.html
+$tokens.restore();
+
+
+
+
+
+
 
 app.use('*', function(req, res){ 
 	res.statusCode = 404;

@@ -10,3 +10,6 @@ Commands:
 - Prepare: `npm install`;
 - Start web server: `npm run start`;
 - Start building: `npm run watch`; 
+
+Compatible with:
+- Chrome 61+;

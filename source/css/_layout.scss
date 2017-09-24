@@ -16,3 +16,11 @@
 	height: 10000px;
 	background: yellow;
 }
+
+.page{
+	margin: 50px 100px;
+	&_title{
+		text-transform: uppercase;
+		@include text(18, 20);
+	}
+}
