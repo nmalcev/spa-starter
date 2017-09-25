@@ -24,7 +24,7 @@ app.component('popupWrap', {
 		onClose: '&',
 	},
 	controller: class{
-		constructor($scope, $element, $attrs, $document, $compile){
+		constructor($scope, $element, $attrs, $document, $compile, $controller){
 			this.scope = $scope;
 			this.doc = $document[0];
 			$element[0].focus();
@@ -32,6 +32,7 @@ app.component('popupWrap', {
 			this.code = '';
 			this.el = $element;
 
+			this.$controller = $controller;
 		}
 		close(){
 			this.onClose();
@@ -50,8 +51,9 @@ app.component('popupWrap', {
 			}
 
 			if(this.settings.provide){
-				this.settings.provide(app.cp);
+				this.settings.provide(app.register);
 			}
+
 
 			this.code = this.settings.body;
 		}
@@ -65,7 +67,9 @@ app.component('popupWrap', {
 			<h3 class="ui-ppp_header">{{$ctrl.settings.title}}</h3>
 			<render-html html="$ctrl.code"></render-html>
 			<div class="wrap"></div>
-			<div ng-click="$ctrl.close()">[x]</div>
+			<div class="ui-ppp_close-btn" ng-click="$ctrl.close()">
+				<i class="nm-icon nm-icon__close"></i>
+			</div>
 		</div>
 	</div>
 	`,

@@ -1,7 +1,15 @@
 let app = angular
 	.module('app', [])
-	.config(function($controllerProvider){
-	    app.cp = $controllerProvider;
+	.config(function($controllerProvider, $compileProvider, $filterProvider, $provide){
+	    app.register = {
+			controller: $controllerProvider.register,
+			directive: $compileProvider.directive,
+			filter: $filterProvider.register,
+			factory: $provide.factory,
+			service: $provide.service
+		};
+
+		return app;
 	});
 
 app.directive('renderHtml', ['$compile', function($compile){

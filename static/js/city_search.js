@@ -26,14 +26,15 @@ app.controller('city-search', ['$scope', 'popup', class{
 				+ '<div class="test" ng-show="showBar"></div>'
 				+ '<button ng-click="toggle()">Toggle</button>'
 				+ '</div>',
-				provide: function($cp){
-					$cp.register('lazy', function($scope){
+				provide: function($register){
+					$register.controller('lazy', function($scope){
 					    $scope.entry = 'World';
 					    $scope.showBar = false;
 					    $scope.toggle = function(){
 					    	this.showBar = !this.showBar;
 					    };
 					});
+					// $controllerProvider.register(controllerName, controllerFunction);
 				}
 			});
 

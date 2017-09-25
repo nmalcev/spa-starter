@@ -1,28 +1,43 @@
 import {app} from './app.js';
 
-app.controller('test-ctrl', ['$scope', '$http', class{
-	constructor($scope, $http){
-		var serviceSesion = localStorage['session'] || '1';
+app.factory('MegaService', ['$http', function UserProfile($http){
+	var _private = {};
 
-		$scope.testProxy = function(){
+	_private.session = localStorage['session'] || '1';
+	_private.token = 'testtoken';
+
+	return {
+		download: function(){
 			$http.get('http://localhost:9081/entry/proxy/abc', {
 				headers: {
-					'service-token': 'testtoken',
-					'service-session': serviceSesion,
+					'service-token': _private.token,
+					'service-session': _private.session,
 				},
 				params: { 
 					test: 'test'
 				}
 			}).then(function(resp){
-				serviceSesion  = resp.headers('service-session');
-				localStorage['session'] = serviceSesion;
+				_private.session  = resp.headers('service-session');
+				localStorage['session'] = _private.session;
 
-				console.log('Completed newSession: %s', serviceSesion);
+				console.log('Completed newSession: %s', _private.session);
 				console.dir(resp);
 			}, function(resp){
 				console.log('Rejected');
 				console.dir(resp);
 			});
+		},
+		// get new token and session
+		authorize: function(){
+			// TODO
+		},
+	};
+}]);
+
+app.controller('test-ctrl', ['$scope', 'MegaService', class{
+	constructor($scope, MegaService){
+		$scope.testProxy = function(){
+			MegaService.download();
 		};
 	}
 }]);

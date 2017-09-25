@@ -54,6 +54,7 @@ body {
   .ui-ppp_content {
     display: inline-block;
     vertical-align: middle;
+    position: relative;
     width: 800px;
     padding: 30px;
     background-color: #fff;
@@ -63,6 +64,36 @@ body {
     line-height: 20px;
     font-weight: normal;
     margin: 0 0 20px 0; }
+  .ui-ppp_close-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px; }
+
+.nm-icon {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  cursor: pointer; }
+  .nm-icon__close {
+    transform: rotate(45deg); }
+    .nm-icon__close:before, .nm-icon__close:after {
+      position: absolute;
+      content: "";
+      display: block;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #777; }
+    .nm-icon__close:before {
+      width: 20px;
+      height: 2px; }
+    .nm-icon__close:after {
+      width: 2px;
+      height: 20px; }
+    .nm-icon__close:hover:after, .nm-icon__close:hover:before {
+      background-color: #333; }
 
 .search-select {
   display: inline-block;

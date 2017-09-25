@@ -1,0 +1,33 @@
+.nm-icon{
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	&__close{
+		transform: rotate(45deg);
+		&:before,
+		&:after{
+			position: absolute;
+			content: "";
+			display: block;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			background-color: #777;
+		}
+		&:before{
+			width: 20px;
+			height: 2px;
+		}
+		&:after{
+			width: 2px;
+			height: 20px;
+		}
+		&:hover:after,
+		&:hover:before{
+			background-color: #333;
+		}
+	}
+}
