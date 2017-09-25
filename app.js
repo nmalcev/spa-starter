@@ -20,14 +20,12 @@ app.use($rContent.contentParser);
 app.use($session.sessionProvider('abc'));
 
 
-// TODO move requirements at routes folder
-app.use('/api/auth', require('./server/api/auth'));
-app.use('/api/user', require('./server/api/user'));
+app.use('/api/auth', require('./server/routes/auth'));
+app.use('/api/user', require('./server/routes/user'));
 $accounts.restore();
 
 // Fake data
-// TODO move requirements at routes folder
-app.use('/api/cities', require('./server/api/test_list'));
+app.use('/api/cities', require('./server/routes/test_list'));
 
 
 
