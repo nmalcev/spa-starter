@@ -42,13 +42,16 @@ module.exports = {
 	},
 	// @param {string} tokenId
 	// @param {string} secret
+	// @param {string} ip
 	// @return {string?} newSecret;
-	validate: function(tokenId, session){
+	validate: function(tokenId, session, ip){
 		var 	token = this.get(tokenId),
 				newSecret;
 
 		console.log('[CALL validate] tokenId: [%s], session: [%s]', tokenId, session);
 		console.dir(token);
+		console.dir(ip);
+		// TODO check ip
 
 
 		if(token){

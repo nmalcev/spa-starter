@@ -4,8 +4,21 @@ var 	$tokens = require('./token_provider');
 const 	TOKEN_HEADER = 'service-token',
 		SESSION_HEADER = 'service-session';
 
+function getIp(req){
+	let forwardHeaders = req.headers['x-forwarded-for'] || req.headers['X-Forwarded-For']; // 'client, proxy1, proxy2, ..., proxyN'
+
+	// TODO
+	if(forwardHeaders){
+		return forwardHeaders.split(',')[0].trim(); // 
+	}else{
+		return req.connection.remoteAddress ||req.socket.remoteAddress || req.connection.socket.remoteAddress;
+	}
+}
+
 
 module.exports = function(req, res, next){
+	// TODO validate by ip adress
+
 	var newSecret = $tokens.validate(req.headers[TOKEN_HEADER], req.headers[SESSION_HEADER]);
 
 	if(newSecret){
