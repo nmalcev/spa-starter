@@ -1,13 +1,13 @@
 var 	$express = require('express'),
-		$tokenProvider = require('./../lib/token_provider'),
+		$tokenProvider = require('./../providers/token_provider'),
 	 	router = $express.Router();
 
 
 // Proxy requests
 router.get('/proxy/:url', function(req, res){
 	// TODO
-	console.log('Debug /proxy/');
-	console.dir(req);
+	// console.log('Debug /proxy/');
+	// console.dir(req);
 
 	res.json({
 		value: Math.random()

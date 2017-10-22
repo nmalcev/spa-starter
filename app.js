@@ -1,5 +1,5 @@
 var 	$express = require('express'),
-		$rContent = require('./server/lib/request_content'),
+		$rContent = require('./server/middlewares/request_content'),
 		$session = require('./server/lib/session_provider'),
 		$accounts = require('./server/lib/accounts_provider');
 
@@ -17,25 +17,41 @@ app.use($express.static(__dirname + '/static'));
 
 // Use middleware
 app.use($rContent.contentParser);
-app.use($session.sessionProvider('abc'));
 
-
-app.use('/api/auth', require('./server/routes/auth'));
-app.use('/api/user', require('./server/routes/user'));
+//--------------------------------------------------------------------------------
+// Public
+//--------------------------------------------------------------------------------
+var public = app.use('/public', $session.sessionProvider('abc'));
+public.use('/auth', require('./server/routes/auth'));
+public.use('/user', require('./server/routes/user'));
 $accounts.restore();
+// app.use($session.sessionProvider('abc'));
+// app.use('/api/auth', require('./server/routes/auth'));
+// app.use('/api/user', require('./server/routes/user'));
+// $accounts.restore();
 
 // Fake data
 app.use('/api/cities', require('./server/routes/test_list'));
+// test headers
+app.use('/api/test', require('./server/routes/test'));
+
+
+
 
 
 
 // TODO move to separete module
-var		$tokens_middleware = require('./server/lib/tokens_middleware'),
-		$services_routes = require('./server/routes/services'),
-		$tokens = require('./server/lib/token_provider');
+//--------------------------------------------------------------------------------
+// Entry
+//--------------------------------------------------------------------------------
+var		$tokens_middleware 	= require('./server/middlewares/tokens_middleware'),
+		$services_routes 	= require('./server/routes/services'),
+		$tokens 			= require('./server/providers/token_provider');
 
 app.use('/entry', $tokens_middleware, $services_routes); // nested middlewares http://expressjs.com/en/guide/using-middleware.html
-$tokens.restore();
+$tokens.restore(function(isSuccess){
+	console.log('Tokens are loaded: %s', isSuccess);
+});
 
 
 

@@ -1,4 +1,4 @@
-var 	$tokens = require('./token_provider');
+var 	$tokens = require('./../providers/token_provider');
 
 
 const 	TOKEN_HEADER = 'service-token',
@@ -7,11 +7,11 @@ const 	TOKEN_HEADER = 'service-token',
 function getIp(req){
 	var forwardHeaders = req.headers['x-forwarded-for'] || req.headers['X-Forwarded-For']; // 'client, proxy1, proxy2, ..., proxyN'
 
-	// TODO
+	// TODO return ::1 as a result
 	if(forwardHeaders){
-		return forwardHeaders.split(',')[0].trim(); // 
+		return forwardHeaders.split(',')[0].trim();
 	}else{
-		return req.connection.remoteAddress ||req.socket.remoteAddress || req.connection.socket.remoteAddress;
+		return req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket && req.connection.socket.remoteAddress;
 	}
 }
 

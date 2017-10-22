@@ -1,23 +1,28 @@
 // Aka token shop
 
-var	 	$fs = require('fs');
+var	 	$fs = require('fs'),
+		$path = require('path');
 
 
-// const 	TOKENS_PATH = __dirname + '/tokens.json'; // todo get from settings module
-const 	TOKENS_PATH = __dirname + '../artefacts/tokens.json', // todo get from settings module
+const 	TOKENS_PATH = $path.join(__dirname, '../artefacts/tokens.json'), // todo get from settings module
 		MULTIPLY_COEFF = 1000000;
 
 module.exports = {
 	tokens: {},
 	store: function(next){
+		// TODO clear comments at file
 		$fs.writeFile(TOKENS_PATH, JSON.stringify(this.tokens, null, '\t'), function(d){
 			if(next) next();
 		});
 	},
 
 	restore: function(next){
+		console.log('Restore: %s', TOKENS_PATH);
+
 		$fs.readFile(TOKENS_PATH, 'utf8', function(error, content){
 			if(error){
+				console.log('ERR');
+				console.dir(error);
 				if(error.code == 'ENOENT'){ // if file not exist create them, and try again
 					this.tokens = {};
 					this.store();
