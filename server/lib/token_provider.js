@@ -1,8 +1,11 @@
+// Aka token shop
+
 var	 	$fs = require('fs');
 
 
-const 	TOKENS_PATH = __dirname + '/tokens.json'; // todo get from settings module
-
+// const 	TOKENS_PATH = __dirname + '/tokens.json'; // todo get from settings module
+const 	TOKENS_PATH = __dirname + '../artefacts/tokens.json', // todo get from settings module
+		MULTIPLY_COEFF = 1000000;
 
 module.exports = {
 	tokens: {},
@@ -39,19 +42,22 @@ module.exports = {
 	},
 	// @param {string} tokenId
 	// @param {string} secret
+	// @param {string} ip
 	// @return {string?} newSecret;
-	validate: function(tokenId, session){
+	validate: function(tokenId, session, ip){
 		var 	token = this.get(tokenId),
 				newSecret;
 
 		console.log('[CALL validate] tokenId: [%s], session: [%s]', tokenId, session);
 		console.dir(token);
+		console.dir(ip);
+		// TODO check ip
 
 
 		if(token){
 			if(token.status == 1){ // not expired
 				if(token.session == session){
-					newSecret = ~~(10000 * Math.random());
+					newSecret = ~~(MULTIPLY_COEFF * Math.random());
 					token.session = newSecret;
 				}else{ // withdrawing of token
 					token.status = 0;
@@ -61,5 +67,28 @@ module.exports = {
 		}
 
 		return newSecret;
+	},
+	getNewToken: function(){
+		let newToken = this.generateToken();
+		let tokenProps = {
+			session: ~~(Math.random() * MULTIPLY_COEFF),
+			domains: '*',
+			status: 1
+		};
+
+		this.tokens[newToken] = tokenProps;
+		this.store();
+
+		return {
+			token: newToken,
+			session: tokenProps.session
+		};
+	},
+	generateToken: function(){
+		// TODO use another hash function
+		let token = ~~(Math.random() * MULTIPLY_COEFF);
+
+		return this.tokens.hasOwnProperty(token) ? this.generateToken() : token;
 	}
 };
+

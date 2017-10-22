@@ -1,10 +1,13 @@
 var 	$express = require('express'),
+		$tokenProvider = require('./../lib/token_provider'),
 	 	router = $express.Router();
 
 
 // Proxy requests
 router.get('/proxy/:url', function(req, res){
 	// TODO
+	console.log('Debug /proxy/');
+	console.dir(req);
 
 	res.json({
 		value: Math.random()
@@ -12,13 +15,12 @@ router.get('/proxy/:url', function(req, res){
 });
 
 
-// Request for generating new pair token & session
+// Request for generating new credentials (pair token & session)
 router.post('/auth', function(req, res){
-	// TODO
+	let 	newCredentials = $tokenProvider.getNewToken();
 
-	res.sendStatus(200);
+	res.json(newCredentials);
 });
-
 
 
 module.exports = router;
