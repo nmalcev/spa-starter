@@ -48,7 +48,7 @@ $gulp.task('sass', function(){
 
 $gulp.task('watch', function() {
 	$gulp
-		.watch(sass_settings.watch, ['sass'])
+		.watch(sass_settings.watch, {interval: 500}, ['sass'])
 		.on('change', function(e){
 			console.log('File %s was %s, running tasks...', e.path, e.type);
 		});
@@ -59,7 +59,7 @@ $gulp.task('watch', function() {
 			'./source/**/*.css',
 			'./source/**/*.map',
 			'./source/**/*.js',
-		], ['copyfiles'])
+		], {interval: 500}, ['copyfiles']);
 });
 
 
