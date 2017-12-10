@@ -37,7 +37,54 @@ app.controller('city-search', ['$scope', 'popup', class{
 					// $controllerProvider.register(controllerName, controllerFunction);
 				}
 			});
+		}
+		$scope.onClick2 = function(){
+			$popup.add({
+				title: 'Example of Popup2',
+				body: 
+				`
+					<div ng-controller="lazy as ctrl">
+						<p ng-bind="count"></p>
+						<p ng-bind="text"></p>
 
+						<form>
+							<div>
+								<button ng-click="ctrl.increment()">+</button>	
+								<span class="field-input __short" ng-model="count" editable-type="int"></span>
+								<button ng-click="ctrl.decrement()">-</button>	
+
+								<span class="field-input __short" ng-model="text" editable-type></span>
+							</div>
+							<div>
+								<button type="reset">Reset</button>
+								<button type="submit">Submit</button>
+							</div>
+						</form>
+					</div>
+				`,
+				provide: function($register){
+					$register.controller('lazy', class{
+						constructor($scope){
+							console.log('INIT');
+							this.$scope = $scope;
+							this.$scope.count = 0;
+							this.$scope.text = '';
+
+
+						}
+						increment(){
+							console.log('Increment');
+							this.$scope.count++;
+						}
+						decrement(){
+							let c = this.$scope.count - 1;
+							this.$scope.count = c > 0 ? c : 0;
+						}
+
+					});
+
+				}
+			});
 		}
 	}
 }]);

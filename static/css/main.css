@@ -28,6 +28,17 @@ body {
     font-size: 18px;
     line-height: 20px; }
 
+.field-input {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 12px;
+  line-height: 20px;
+  border: 1px solid #ccc;
+  padding: 3px 8px;
+  height: 20px; }
+  .field-input.__short {
+    min-width: 16px; }
+
 .ui-ppp {
   position: fixed;
   text-align: center;

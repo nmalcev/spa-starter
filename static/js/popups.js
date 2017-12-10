@@ -54,7 +54,6 @@ app.component('popupWrap', {
 				this.settings.provide(app.register);
 			}
 
-
 			this.code = this.settings.body;
 		}
 		onClick(e){

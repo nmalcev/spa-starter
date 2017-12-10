@@ -24,3 +24,16 @@
 		@include text(18, 20);
 	}
 }
+
+.field-input{
+	@include inlineMiddle();
+	@include text(12, 20);
+	border: 1px solid #ccc;
+	
+	padding: 3px 8px;
+	height: 20px;
+	&.__short{
+		min-width: 16px;
+
+	}
+}
